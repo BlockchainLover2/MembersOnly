@@ -14,7 +14,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node --watch app"
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
