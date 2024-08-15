@@ -27,9 +27,7 @@ async function serializeUser(user, done){
 
 async function deserializeUser(id, done){
     try {
-        const { rows } = await query.getUserById(id)
-        const user = rows[0];
-
+        const user = await query.getUserById(id)
         done(null, user);
     } catch(err) {
         done(err);

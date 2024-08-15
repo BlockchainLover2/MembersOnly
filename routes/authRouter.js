@@ -7,11 +7,11 @@ authRouter.get("/sign-up", userController.createUserGet)
 
 authRouter.post("/sign-up",userController.createUserPost)
 
-authRouter.get("/log-in", userController.loginGet)
+authRouter.get("/sign-in", userController.loginGet)
 
-authRouter.post("/log-in",userController.loginPost)
+authRouter.post("/sign-in",userController.loginPost)
 
-authRouter.post("/log-out",userController.createUserPost)
+authRouter.post("/log-out",userController.logoutPost)
 
 
 module.exports = authRouter

@@ -8,14 +8,14 @@ const lengthErr = "must be between 1 and 10 characters.";
 
 
 const validateUser = [
-    body("username").trim()
-        .isAlpha().withMessage(`First name ${alphaErr}`)
-        .isLength({ min: 1, max: 10 }).withMessage(`First name ${lengthErr}`),
-    body("password").trim().isLength({ min: 1, max: 10 }).withMessage(`Password ${lengthErr}`),
+    body("username").isEmail().withMessage("Please Input Valid Email"),
+    body("confirmPassword").custom((value , {req})=>{
+        return value === req.body.password
+    }).withMessage("Passwords are not same")
 ];
 
 exports.createUserGet = (req,res)=>{
-    res.render("index")
+    res.render("signUpForm")
 }
 
 exports.createUserPost = [validateUser, async (req,res,next)=>{
@@ -23,7 +23,7 @@ exports.createUserPost = [validateUser, async (req,res,next)=>{
     try {
         bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
             if(err) return next(err);
-            await query.createUser(req.body.username, hashedPassword);
+            await query.createUser({email:req.body.username,firstName:req.body.firstName,lastName:req.body.lastName,password:hashedPassword});
             res.redirect("/");
         });
 
@@ -34,7 +34,16 @@ exports.createUserPost = [validateUser, async (req,res,next)=>{
 
 
 exports.loginGet = (req,res)=>{
-    res.render("index")
+    res.render("signInForm")
+}
+
+exports.logoutPost = (req,res,next)=>{
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/");
+    });
 }
 
 exports.loginPost = logIn
